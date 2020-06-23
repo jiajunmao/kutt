@@ -9,14 +9,14 @@ services:
       - redis
     command: ["./wait-for-it.sh", "postgres:5432", "--", "npm", "start"]
     ports:
-      - "3000:3000"
+      - "8089:3000"
     env_file:
       - .env
     environment:
       DB_HOST: postgres
       DB_NAME: kutt
-      DB_USER: user
-      DB_PASSWORD: pass
+      DB_USER: aaronmao
+      DB_PASSWORD: Aaronhangzhou1
     networks:
       - kutt-network
 
@@ -30,8 +30,8 @@ services:
     image: postgres:12-alpine
     container_name: postgres
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: aaronmao
+      POSTGRES_PASSWORD: Aaronhangzhou1
       POSTGRES_DB: kutt
     ports:
       - "54323:5432"

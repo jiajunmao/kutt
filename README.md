@@ -1,23 +1,22 @@
 <p align="center"><a href="https://kutt.it" title="kutt.it"><img src="https://raw.githubusercontent.com/thedevs-network/kutt/9d1c873897c3f5b9a1bd0c74dc5d23f2ed01f2ec/static/images/logo-github.png" alt="Kutt.it"></a></p>
 
-# Kutt.it
+# kutt.chinaeliteacademy.org [Kutt.it]
+
+**This is a CEA's fork of Kutt.it maintained by CEA Tech Team with CEA Branding** 
 
 **Kutt** is a modern URL shortener with support for custom domains. Shorten URLs, manage your links and view the click rate statistics.
 
-_Contributions and bug reports are welcome._
 
-[https://kutt.it](https://kutt.it)
+[https://kutt.chinaeliteacademy.org](https://kutt.chinaeliteacademy.org)
 
-[![Build Status](https://travis-ci.org/thedevs-network/kutt.svg?branch=v2-beta)](https://travis-ci.org/thedevs-network/kutt)
-[![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](https://github.com/thedevs-network/kutt/#contributing)
+[https://www.chinaeliteacademy.org](https://www.chinaeliteacademy.org)
+
+
+[![Build Status](https://jenkins.kentailab.org/buildStatus/icon?job=kutt%2Fdevelop)](https://jenkins.kentailab.org/job/kutt/job/develop/)
 [![GitHub license](https://img.shields.io/github/license/thedevs-network/kutt.svg)](https://github.com/thedevs-network/kutt/blob/develop/LICENSE)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/thedevs-network/kutt/.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fthedevs-network%2Fkutt%2F)
 
-## Migration from v1
-
-The new version of Kutt is here. In version 2, we used TypeScript and we moved from Neo4j to PostgreSQL database in favor of performance and we're working on adding new features.
-
-If you're coming from v1, refer to [MIGRATION.md](MIGRATION.md) to migrate data from Neo4j to PostgreSQL.
+[![CPU Usage](https://thinkpad.kentailab.org/netdata//api/v1/badge.svg?chart=system.cpu&alarm=10min_cpu_usage&refresh=auto)](https://thinkpad.kentailab.org/netdata//api/v1/badge.svg?chart=system.cpu&alarm=10min_cpu_usage&refresh=auto)
+[![Sys Load](https://thinkpad.kentailab.org/netdata//api/v1/badge.svg?chart=system.load&alarm=load_average_15&refresh=auto)](https://thinkpad.kentailab.org/netdata//api/v1/badge.svg?chart=system.load&alarm=load_average_15&refresh=auto)
 
 ## Table of Contents
 

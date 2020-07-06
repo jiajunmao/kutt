@@ -13,6 +13,9 @@ const mailConfig = {
   auth: {
     user: env.MAIL_USER,
     pass: env.MAIL_PASSWORD
+  },
+  tls: { 
+    ciphers: 'SSLv3' 
   }
 };
 

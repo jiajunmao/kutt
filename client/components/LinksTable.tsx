@@ -523,7 +523,7 @@ const LinksTable: FC = () => {
   return (
     <Col width={1200} maxWidth="95%" margin="40px 0 120px" my={6}>
       <H2 mb={3} light>
-        Recent shortened links.
+        最近缩短的链接
       </H2>
       <Table scrollWidth="800px">
         <thead>
@@ -532,7 +532,7 @@ const LinksTable: FC = () => {
               <Flex as="form" onSubmit={onSubmit}>
                 <TextInput
                   {...text("search")}
-                  placeholder="Search..."
+                  placeholder="输入链接..."
                   height={[30, 32]}
                   placeholderSize={[13, 13, 13, 13]}
                   fontSize={[14]}
@@ -547,7 +547,7 @@ const LinksTable: FC = () => {
                   <Checkbox
                     {...label("all")}
                     {...checkbox("all")}
-                    label="All links"
+                    label="所有链接"
                     ml={3}
                     fontSize={[14, 15]}
                     width={[15, 16]}
@@ -559,10 +559,10 @@ const LinksTable: FC = () => {
             {Nav}
           </Tr>
           <Tr>
-            <Th {...ogLinkFlex}>Original URL</Th>
-            <Th {...createdFlex}>Created</Th>
-            <Th {...shortLinkFlex}>Short URL</Th>
-            <Th {...viewsFlex}>Views</Th>
+            <Th {...ogLinkFlex}>原始链接</Th>
+            <Th {...createdFlex}>创建日期</Th>
+            <Th {...shortLinkFlex}>已缩短链接</Th>
+            <Th {...viewsFlex}>访问数量</Th>
             <Th {...actionsFlex}></Th>
           </Tr>
         </thead>

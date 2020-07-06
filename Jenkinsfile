@@ -30,7 +30,7 @@ pipeline {
         stage('Deployment - Docker') {
             steps {
                 script {
-                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd /myssddisk/dockers/kutt && docker-compose restart"'
+                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd /myssddisk/dockers/kutt && docker-compose up -d --no-deps --build kutt"'
                 }
             }
         }

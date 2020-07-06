@@ -1,27 +1,43 @@
-version: '3'
+version: "3"
 
 services:
   kutt:
     build: .
     container_name: kutt
-    links:
-      - neo4j
+    depends_on:
+      - postgres
       - redis
+    command: ["./wait-for-it.sh", "postgres:5432", "--", "npm", "start"]
     ports:
-      - "3000:3000"
-    env_file: 
+      - "8089:3000"
+    env_file:
       - .env
-    
-  redis:
-    image: "redis:alpine"
-    container_name: kutt-redis
-    expose:
-      - 6379
-
-  neo4j:
-    image: neo4j:3.5
-    container_name: kutt-neo4j
     environment:
-      - NEO4J_AUTH=neo4j/test
-    expose:
-      - 7687
+      DB_HOST: postgres
+      DB_NAME: kutt
+      DB_USER: aaronmao
+      DB_PASSWORD: Aaronhangzhou1
+    networks:
+      - kutt-network
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    networks:
+      - kutt-network
+
+  postgres:
+    image: postgres:12-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: aaronmao
+      POSTGRES_PASSWORD: Aaronhangzhou1
+      POSTGRES_DB: kutt
+    ports:
+      - "54323:5432"
+    networks:
+      - kutt-network
+
+networks:
+  kutt-network:
+    driver: "bridge"

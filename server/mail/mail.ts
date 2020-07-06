@@ -7,15 +7,13 @@ import { CustomError } from "../utils";
 import env from "../env";
 
 const mailConfig = {
+  service: "Outlook365",
   host: env.MAIL_HOST,
   port: env.MAIL_PORT,
-  secure: env.MAIL_SECURE,
+  secureConnection: env.MAIL_SECURE,
   auth: {
     user: env.MAIL_USER,
     pass: env.MAIL_PASSWORD
-  },
-  tls: { 
-    ciphers: 'SSLv3' 
   }
 };
 

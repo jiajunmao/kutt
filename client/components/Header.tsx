@@ -40,7 +40,8 @@ const LogoImage = styled.div`
   }
 
   img {
-    width: 80px;
+    width: 160px;
+    height: 130px;
     margin-right: 11px;
   }
 `;
@@ -100,7 +101,7 @@ const Header: FC = () => {
               if (window.location.pathname !== "/") Router.push("/");
             }}
           >
-            <img src="/images/cea_logo.png" alt="CEA Kutt" width="140" height="40"/>
+            <img src="/images/cea_logo.png" alt="CEA Kutt" width="160" height="130"/>
             {process.env.SITE_NAME}
           </a>
         </LogoImage>

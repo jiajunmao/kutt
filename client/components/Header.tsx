@@ -100,7 +100,7 @@ const Header: FC = () => {
               if (window.location.pathname !== "/") Router.push("/");
             }}
           >
-            <img src="/images/cea_logo.png" alt="CEA Kutt" width="50" height "40"/>
+            <img src="/images/cea_logo.png" alt="CEA Kutt" width="50" height="40"/>
             {process.env.SITE_NAME}
           </a>
         </LogoImage>

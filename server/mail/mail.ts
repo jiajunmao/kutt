@@ -13,7 +13,7 @@ const mailConfig = {
     pass: env.MAIL_PASSWORD
   }
 };
- s
+
 const transporter = nodemailer.createTransport(mailConfig);
 
 export default transporter;

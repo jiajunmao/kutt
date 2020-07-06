@@ -53,7 +53,7 @@ const Header: FC = () => {
     <Li>
       <Link href="/login">
         <ALink href="/login" title="login / signup" forButton>
-          <Button height={[32, 40]}>Login / Sign up</Button>
+          <Button height={[32, 40]}>登录 / 注册</Button>
         </ALink>
       </Link>
     </Li>
@@ -62,7 +62,7 @@ const Header: FC = () => {
     <Li>
       <Link href="/logout">
         <ALink href="/logout" title="logout" fontSize={[14, 16]}>
-          Log out
+          注销
         </ALink>
       </Link>
     </Li>
@@ -71,7 +71,7 @@ const Header: FC = () => {
     <Li>
       <Link href="/settings">
         <ALink href="/settings" title="Settings" forButton>
-          <Button height={[32, 40]}>Settings</Button>
+          <Button height={[32, 40]}>设置</Button>
         </ALink>
       </Link>
     </Li>
@@ -100,7 +100,7 @@ const Header: FC = () => {
               if (window.location.pathname !== "/") Router.push("/");
             }}
           >
-            <img src="/images/logo.svg" alt="" />
+            <img src="/images/cea_logo.svg" alt="" />
             {process.env.SITE_NAME}
           </a>
         </LogoImage>
@@ -116,7 +116,7 @@ const Header: FC = () => {
           >
             <Li>
               <ALink
-                href="//github.com/thedevs-network/kutt"
+                href="//github.com/jiajunmao/kutt"
                 target="_blank"
                 rel="noopener noreferrer"
                 title="GitHub"
@@ -124,13 +124,6 @@ const Header: FC = () => {
               >
                 GitHub
               </ALink>
-            </Li>
-            <Li>
-              <Link href="/report">
-                <ALink href="/report" title="Report abuse" fontSize={[14, 16]}>
-                  Report
-                </ALink>
-              </Link>
             </Li>
           </Flex>
         )}

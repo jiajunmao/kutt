@@ -121,11 +121,7 @@ const Shortener = () => {
 
   const title = !link && (
     <H1 fontSize={[25, 27, 32]} light>
-      Kutt your links{" "}
-      <Span style={{ borderBottom: "2px dotted #999" }} light>
-        shorter
-      </Span>
-      .
+      缩短网页链接！
     </H1>
   );
 
@@ -192,7 +188,7 @@ const Shortener = () => {
       >
         <TextInput
           {...text("target")}
-          placeholder="Paste your long URL"
+          placeholder="在此处粘贴链接"
           placeholderSize={[16, 17, 18]}
           fontSize={[18, 20, 22]}
           width={1}
@@ -225,7 +221,7 @@ const Shortener = () => {
           onChange: e => {
             if (!isAuthenticated) {
               setMessage(
-                "You need to log in or sign up to use advanced options."
+                "请登录以使用高级设置"
               );
               return false;
             }
@@ -233,7 +229,7 @@ const Shortener = () => {
           }
         })}
         checked={formState.values.showAdvanced}
-        label="Show advanced options"
+        label="高级设置"
         mt={[3, 24]}
         alignSelf="flex-start"
       />

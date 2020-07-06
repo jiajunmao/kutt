@@ -40,8 +40,8 @@ const LogoImage = styled.div`
   }
 
   img {
-    width: 160px;
-    height: 130px;
+    width: 80px;
+    height: 65px;
     margin-right: 11px;
   }
 `;
@@ -101,9 +101,14 @@ const Header: FC = () => {
               if (window.location.pathname !== "/") Router.push("/");
             }}
           >
-            <img src="/images/cea_logo.png" alt="CEA Kutt" width="160" height="130"/>
+            <img src="/images/cea_logo.png" alt="CEA Kutt" width="80" height="65"/>
             {process.env.SITE_NAME}
           </a>
+          
+          <div>
+            <p>China Elite Academy</p>
+            <p>URL Shortener</p>
+          </div>
         </LogoImage>
         {!isMobile && (
           <Flex

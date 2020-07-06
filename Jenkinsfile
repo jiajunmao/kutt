@@ -17,6 +17,22 @@ pipeline {
                     sh 'yarn build'
                 }
             }
-        }    
+        }
+
+        stage('Deployment - Git') {
+            steps {
+                script {
+                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd /myssddisk/dockers/kutt && git pull"'
+                }
+            }
+        } 
+
+        stage('Deployment - Docker') {
+            steps {
+                script {
+                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd /myssddisk/dockers/kutt && docker-compose stop && docker-compose rm -f && docker-compose up -d'
+                }
+            }
+        }
     }
 }

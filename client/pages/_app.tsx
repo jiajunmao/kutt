@@ -74,7 +74,7 @@ class MyApp extends App<any> {
       <>
         <Head>
           <title>
-            {process.env.SITE_NAME} | Modern Open Source URL shortener.
+            China Elite Academy | URL shortener.
           </title>
         </Head>
         <StoreProvider store={this.store}>

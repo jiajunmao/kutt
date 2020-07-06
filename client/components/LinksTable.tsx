@@ -86,8 +86,8 @@ const ogLinkFlex = { flexGrow: [1, 3, 7], flexShrink: [1, 3, 7] };
 const createdFlex = { flexGrow: [1, 1, 3], flexShrink: [1, 1, 3] };
 const shortLinkFlex = { flexGrow: [1, 1, 3], flexShrink: [1, 1, 3] };
 const viewsFlex = {
-  flexGrow: [0.5, 0.5, 1],
-  flexShrink: [0.5, 0.5, 1],
+  flexGrow: [1, 1, 3],
+  flexShrink: [1, 1, 3],
   justifyContent: "flex-end"
 };
 const actionsFlex = { flexGrow: [1, 1, 2.5], flexShrink: [1, 1, 2.5] };

@@ -79,9 +79,10 @@ const Shortener = () => {
     }
   );
 
-  const submitLink = async (reCaptchaToken?: string) => {
+  const submitLink = async () => {
     try {
-      const link = await submit({ ...formState.values, reCaptchaToken });
+      const link = await submit({ ...formState.values});
+      //const link = await submit({ ...formState.values, reCaptchaToken });
       setLink(link);
       formState.clear();
     } catch (err) {
@@ -99,8 +100,8 @@ const Shortener = () => {
     setLoading(true);
 
     if (process.env.NODE_ENV === "production" && !isAuthenticated) {
-      window.grecaptcha.execute(window.captchaId);
-      const getCaptchaToken = () => {
+      //window.grecaptcha.execute(window.captchaId);
+      /*const getCaptchaToken = () => {
         setTimeout(() => {
           if (window.isCaptchaReady) {
             const reCaptchaToken = window.grecaptcha.getResponse(
@@ -113,9 +114,10 @@ const Shortener = () => {
           return getCaptchaToken();
         }, 200);
       };
-      return getCaptchaToken();
-    }
+      return getCaptchaToken();*/
 
+    }
+    return submitLink();
     return submitLink();
   };
 

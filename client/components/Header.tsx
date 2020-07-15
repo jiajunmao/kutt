@@ -104,11 +104,6 @@ const Header: FC = () => {
             <img src="/images/cea_logo.png" alt="CEA Kutt" width="80" height="65"/>
             {process.env.SITE_NAME}
           </a>
-          
-          <div>
-            <p>China Elite Academy</p>
-            <p>URL Shortener</p>
-          </div>
         </LogoImage>
         {!isMobile && (
           <Flex

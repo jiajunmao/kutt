@@ -1,18 +1,20 @@
 import React, { FC, useEffect } from "react";
 
-import showRecaptcha from "../helpers/recaptcha";
+//import showRecaptcha from "../helpers/recaptcha";
 import { useStoreState } from "../store";
 import { ColCenter } from "./Layout";
-import ReCaptcha from "./ReCaptcha";
+//import ReCaptcha from "./ReCaptcha";
 import ALink from "./ALink";
 import Text from "./Text";
 
 const Footer: FC = () => {
   const { isAuthenticated } = useStoreState(s => s.auth);
 
-  useEffect(() => {
-    showRecaptcha();
-  }, []);
+  //useEffect(() => {
+    //showRecaptcha();
+  //}, []);
+
+  //{!isAuthenticated && <ReCaptcha />}
 
   return (
     <ColCenter
@@ -21,7 +23,6 @@ const Footer: FC = () => {
       backgroundColor="white"
       p={isAuthenticated ? 2 : 24}
     >
-      {!isAuthenticated && <ReCaptcha />}
       <Text fontSize={[12, 13]} py={2}>
         Made with love by{" "}
         <ALink href="//thedevs.network/" title="The Devs">

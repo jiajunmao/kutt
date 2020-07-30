@@ -22,7 +22,7 @@ router.post(
   cors(),
   asyncHandler(auth.apikey),
   asyncHandler(auth.jwtLoose),
-  asyncHandler(auth.recaptcha),
+  //asyncHandler(auth.recaptcha),
   validators.createLink,
   asyncHandler(helpers.verify),
   asyncHandler(link.create)

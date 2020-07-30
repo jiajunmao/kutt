@@ -22,7 +22,7 @@ pipeline {
         stage('Deployment - Git') {
             steps {
                 script {
-                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd /myssddisk/dockers/kutt && git pull"'
+                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd ~/Desktop/dockers/kutt && git pull"'
                 }
             }
         } 
@@ -30,7 +30,7 @@ pipeline {
         stage('Deployment - Docker') {
             steps {
                 script {
-                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd /myssddisk/dockers/kutt && docker-compose up -d --no-deps --build kutt"'
+                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd ~/Desktop/dockers/kutt && docker-compose up -d --no-deps --build kutt"'
                 }
             }
         }

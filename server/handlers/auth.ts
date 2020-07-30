@@ -86,7 +86,9 @@ export const cooldown: Handler = async (req, res, next) => {
 };
 
 export const recaptcha: Handler = async (req, res, next) => {
-  if (env.isDev || req.user) return next();
+  //if (env.isDev || req.user) return next();
+  // Forcefully disable recaptcha
+  if (true) return next();
 
   const isReCaptchaValid = await axios({
     method: "post",

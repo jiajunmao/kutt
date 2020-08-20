@@ -139,7 +139,7 @@ const LoginPage = () => {
                 height={[44, 56]}
                 onClick={onSubmit("login")}
               >
-                <Icon
+                <Icon 
                   name={loading.login ? "spinner" : "login"}
                   stroke="white"
                   mr={2}

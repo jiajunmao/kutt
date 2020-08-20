@@ -11,7 +11,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Yarn Build') {
             steps {
                 script {
                     sh 'yarn build'
@@ -19,18 +19,20 @@ pipeline {
             }
         }
 
-        stage('Deployment - Git') {
+        stage('Docker Build and Push') {
             steps {
                 script {
-                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd ~/Desktop/dockers/kutt && git pull"'
+                    sh 'docker build --tag=kutt:latest .'
+                    sh 'docker tag kutt:latest registry.chinaeliteacademy.org/kutt:latest'
+                    sh 'docker push registry.chinaeliteacademy.org/kutt:latest'
                 }
             }
-        } 
+        }
 
         stage('Deployment - Docker') {
             steps {
                 script {
-                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd ~/Desktop/dockers/kutt && docker-compose up -d --no-deps --build kutt"'
+                    sh 'ssh aaronmao@mag.server.kentailab.org "cd /data/dockers/kutt && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth kutt"'
                 }
             }
         }

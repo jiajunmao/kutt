@@ -28,7 +28,7 @@ pipeline {
                         sh 'docker push registry.chinaeliteacademy.org/kutt:latest'
                     } else if (env.BRANCH_NAME == 'develop') {
                         sh 'docker build --tag=kutt:dev .'
-                        sh 'docker tag kutt:latesdevt registry.chinaeliteacademy.org/kutt:dev'
+                        sh 'docker tag kutt:dev registry.chinaeliteacademy.org/kutt:dev'
                         sh 'docker push registry.chinaeliteacademy.org/kutt:dev'
                     }
                 }

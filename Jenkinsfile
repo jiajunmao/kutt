@@ -22,9 +22,15 @@ pipeline {
         stage('Docker Build and Push') {
             steps {
                 script {
-                    sh 'docker build --tag=kutt:latest .'
-                    sh 'docker tag kutt:latest registry.chinaeliteacademy.org/kutt:latest'
-                    sh 'docker push registry.chinaeliteacademy.org/kutt:latest'
+                    if (env.BRANCH_NAME == 'v2-beta') {
+                        sh 'docker build --tag=kutt:latest .'
+                        sh 'docker tag kutt:latest registry.chinaeliteacademy.org/kutt:latest'
+                        sh 'docker push registry.chinaeliteacademy.org/kutt:latest'
+                    } else (env.BRANCH_NAME == 'develop') {
+                        sh 'docker build --tag=kutt:dev .'
+                        sh 'docker tag kutt:latesdevt registry.chinaeliteacademy.org/kutt:dev'
+                        sh 'docker push registry.chinaeliteacademy.org/kutt:dev'
+                    }
                 }
             }
         }
@@ -32,7 +38,9 @@ pipeline {
         stage('Deployment - Docker') {
             steps {
                 script {
-                    sh 'ssh aaronmao@mag.server.kentailab.org "cd /data/dockers/kutt && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth kutt"'
+                    if (env.BRANCH_NAME == 'v2-beta') {
+                        sh 'ssh aaronmao@mag.server.kentailab.org "cd /data/dockers/kutt && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth kutt"'
+                    }
                 }
             }
         }

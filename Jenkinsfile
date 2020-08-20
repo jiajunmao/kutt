@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     stages {
-        stage ('Prepare') {
+        stage('Npm Install') {
             steps {
                 script {
                     sh 'npm install'
@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        stage('Docker Build and Push') {
+        stage('Docker Build') {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'v2-beta') {
@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Deployment - Docker') {
+        stage('Docker Deploy') {
             steps {
                 script {
                     if (env.BRANCH_NAME == 'v2-beta') {

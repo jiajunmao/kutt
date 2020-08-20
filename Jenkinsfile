@@ -25,10 +25,12 @@ pipeline {
                     if (env.BRANCH_NAME == 'v2-beta') {
                         sh 'docker build --tag=kutt:latest .'
                         sh 'docker tag kutt:latest registry.chinaeliteacademy.org/kutt:latest'
+                        sh 'docker login --username=$DOCKER_USRNAME --password=$DOCKER_PASSWD registry.chinaeliteacademy.org'
                         sh 'docker push registry.chinaeliteacademy.org/kutt:latest'
                     } else if (env.BRANCH_NAME == 'develop') {
                         sh 'docker build --tag=kutt:dev .'
                         sh 'docker tag kutt:dev registry.chinaeliteacademy.org/kutt:dev'
+                        sh 'docker login --username=$DOCKER_USRNAME --password=$DOCKER_PASSWD registry.chinaeliteacademy.org'
                         sh 'docker push registry.chinaeliteacademy.org/kutt:dev'
                     }
                 }

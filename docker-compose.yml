@@ -2,8 +2,7 @@ version: "3"
 
 services:
   kutt:
-    build: .
-    container_name: kutt
+    image: registry.chinaeliteacademy.org/kutt:latest
     depends_on:
       - postgres
       - redis
@@ -17,27 +16,18 @@ services:
       DB_NAME: kutt
       DB_USER: aaronmao
       DB_PASSWORD: Aaronhangzhou1
-    networks:
-      - kutt-network
+      REDIS_HOST: redis
 
   redis:
-    image: redis:alpine
-    container_name: redis
-    networks:
-      - kutt-network
+    image: redis:6.0-alpine
+    volumes:
+      - /mnt/kutt/redis:/data
 
   postgres:
     image: postgres:12-alpine
-    container_name: postgres
     environment:
       POSTGRES_USER: aaronmao
       POSTGRES_PASSWORD: Aaronhangzhou1
       POSTGRES_DB: kutt
-    ports:
-      - "54323:5432"
-    networks:
-      - kutt-network
-
-networks:
-  kutt-network:
-    driver: "bridge"
+    volumes:
+      - /mnt/kutt/psql:/var/lib/postgresql/data

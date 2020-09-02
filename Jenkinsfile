@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     stages {
-        stage ('Prepare') {
+        stage('Npm Install') {
             steps {
                 script {
                     sh 'npm install'
@@ -11,7 +11,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Yarn Build') {
             steps {
                 script {
                     sh 'yarn build'
@@ -19,18 +19,31 @@ pipeline {
             }
         }
 
-        stage('Deployment - Git') {
+        stage('Docker Build') {
             steps {
                 script {
-                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd ~/Desktop/dockers/kutt && git pull"'
+                    if (env.BRANCH_NAME == 'v2-beta') {
+                        sh 'docker build --tag=kutt:latest .'
+                        sh 'docker tag kutt:latest registry.chinaeliteacademy.org/kutt:latest'
+                        sh 'docker login --username=$DOCKER_USRNAME --password=$DOCKER_PASSWD registry.chinaeliteacademy.org'
+                        sh 'docker push registry.chinaeliteacademy.org/kutt:latest'
+                    } else if (env.BRANCH_NAME == 'develop') {
+                        sh 'docker build --tag=kutt:dev .'
+                        sh 'docker tag kutt:dev registry.chinaeliteacademy.org/kutt:dev'
+                        sh 'docker login --username=$DOCKER_USRNAME --password=$DOCKER_PASSWD registry.chinaeliteacademy.org'
+                        sh 'docker push registry.chinaeliteacademy.org/kutt:dev'
+                    }
                 }
             }
-        } 
+        }
 
-        stage('Deployment - Docker') {
+        stage('Docker Deploy') {
             steps {
                 script {
-                    sh 'ssh aaronmao@thinkpad.kentailab.org "cd ~/Desktop/dockers/kutt && docker-compose up -d --no-deps --build kutt"'
+                    if (env.BRANCH_NAME == 'v2-beta') {
+                        echo 'v2-beta detected, updating cea docker stack'
+                        sh 'ssh aaronmao@mag.server.kentailab.org "cd /data/dockers/kutt && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth kutt"'
+                    }
                 }
             }
         }

@@ -106,11 +106,11 @@ const LoginPage = () => {
         ) : (
           <LoginForm id="login-form" onSubmit={onSubmit("login")}>
             <Text {...label("email")} as="label" mb={2} bold>
-              Email address:
+              邮箱地址：
             </Text>
             <TextInput
               {...email("email")}
-              placeholder="Email address..."
+              placeholder="邮箱地址..."
               height={[56, 64, 72]}
               fontSize={[15, 16]}
               px={[4, 40]}
@@ -120,11 +120,11 @@ const LoginPage = () => {
               autoFocus
             />
             <Text {...label("password")} as="label" mb={2} bold>
-              Password (min chars: 8):
+              密码 (最少八位):
             </Text>
             <TextInput
               {...password("password")}
-              placeholder="Password..."
+              placeholder="密码..."
               px={[4, 40]}
               height={[56, 64, 72]}
               fontSize={[15, 16]}
@@ -144,7 +144,7 @@ const LoginPage = () => {
                   stroke="white"
                   mr={2}
                 />
-                Log in
+                登陆
               </Button>
               <Button
                 flex="1 1 auto"
@@ -158,7 +158,7 @@ const LoginPage = () => {
                   stroke="white"
                   mr={2}
                 />
-                Sign up
+                注册
               </Button>
             </Flex>
             <Link href="/reset-password">
@@ -169,7 +169,7 @@ const LoginPage = () => {
                 alignSelf="flex-start"
                 my={16}
               >
-                Forgot your password?
+                忘记密码？
               </ALink>
             </Link>
             <Text color="red" mt={1} normal>

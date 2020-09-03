@@ -116,15 +116,7 @@ const Header: FC = () => {
             p={0}
           >
             <Li>
-              <ALink
-                href="//github.com/jiajunmao/kutt"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="GitHub"
-                fontSize={[14, 16]}
-              >
-                GitHub
-              </ALink>
+              <p>CEA URL缩短服务</p>
             </Li>
           </Flex>
         )}

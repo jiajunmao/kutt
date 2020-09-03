@@ -8,7 +8,7 @@ services:
       - redis
     command: ["./wait-for-it.sh", "postgres:5432", "--", "npm", "start"]
     ports:
-      - "8085:3000"
+      - "8086:3000"
     env_file:
       - .env
     environment:
@@ -20,6 +20,7 @@ services:
 
   redis:
     image: redis:6.0-alpine
+    hostname: 'redis'
     volumes:
       - /mnt/kutt/redis:/data
 

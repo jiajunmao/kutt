@@ -2,7 +2,7 @@ version: "3"
 
 services:
   kutt:
-    image: registry.chinaeliteacademy.org/kutt:latest
+    image: registry.chinaeliteacademy.org/kutt:dev
     depends_on:
       - postgres
       - redis
@@ -22,7 +22,7 @@ services:
     image: redis:6.0-alpine
     hostname: 'redis'
     volumes:
-      - /mnt/kutt/redis:/data
+      - /mnt/kutt/redis_dev:/data
 
   postgres:
     image: postgres:12-alpine
@@ -31,4 +31,4 @@ services:
       POSTGRES_PASSWORD: Aaronhangzhou1
       POSTGRES_DB: kutt
     volumes:
-      - /mnt/kutt/psql:/var/lib/postgresql/data
+      - /mnt/kutt/psql_dev:/var/lib/postgresql/data

@@ -42,7 +42,7 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'v2-beta') {
                         echo 'v2-beta detected, updating cea docker stack'
-                        sh 'ssh aaronmao@mag.server.kentailab.org "cd /data/dockers/kutt && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth kutt"'
+                        sh 'ssh aaronmao@mag.server.kentailab.org "cd /data/dockers/apps/kutt && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth kutt"'
                     }
                 }
             }

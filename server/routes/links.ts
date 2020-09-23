@@ -6,7 +6,6 @@ import * as validators from "../handlers/validators";
 import * as helpers from "../handlers/helpers";
 import * as link from "../handlers/links";
 import * as auth from "../handlers/auth";
-import env from "../env";
 
 const router = Router();
 

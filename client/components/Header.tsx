@@ -1,14 +1,18 @@
 import { Flex } from "reflexbox/styled-components";
+import getConfig from "next/config";
 import React, { FC } from "react";
 import Router from "next/router";
 import useMedia from "use-media";
 import Link from "next/link";
 
+import { DISALLOW_REGISTRATION } from "../consts";
 import { useStoreState } from "../store";
 import styled from "styled-components";
 import { RowCenterV } from "./Layout";
 import { Button } from "./Button";
 import ALink from "./ALink";
+
+const { publicRuntimeConfig } = getConfig();
 
 const Li = styled(Flex).attrs({ ml: [12, 24, 32] })`
   a {

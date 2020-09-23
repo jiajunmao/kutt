@@ -7,10 +7,9 @@ import uuid from "uuid/v4";
 
 import { CustomError } from "../utils";
 import * as utils from "../utils";
+import * as redis from "../redis";
 import * as mail from "../mail";
 import query from "../queries";
-import knex from "../knex";
-import * as redis from "../redis";
 import env from "../env";
 
 const authenticate = (
@@ -37,7 +36,7 @@ const authenticate = (
       }
 
       if (user && user.banned) {
-        throw new CustomError("Your are banned from using this website.", 403);
+        throw new CustomError("You're banned from using this website.", 403);
       }
 
       if (user) {
@@ -61,17 +60,14 @@ export const apikey = authenticate(
 );
 
 export const cooldown: Handler = async (req, res, next) => {
+  if (env.DISALLOW_ANONYMOUS_LINKS) return next();
   const cooldownConfig = env.NON_USER_COOLDOWN;
   if (req.user || !cooldownConfig) return next();
 
-  const ip = await knex<IP>("ips")
-    .where({ ip: req.realIP.toLowerCase() })
-    .andWhere(
-      "created_at",
-      ">",
-      subMinutes(new Date(), cooldownConfig).toISOString()
-    )
-    .first();
+  const ip = await query.ip.find({
+    ip: req.realIP.toLowerCase(),
+    created_at: [">", subMinutes(new Date(), cooldownConfig).toISOString()]
+  });
 
   if (ip) {
     const timeToWait =
@@ -152,7 +148,7 @@ export const changePassword: Handler = async (req, res) => {
     .send({ message: "Your password has been changed successfully." });
 };
 
-export const generateApiKey = async (req, res) => {
+export const generateApiKey: Handler = async (req, res) => {
   const apikey = nanoid(40);
 
   redis.remove.user(req.user);
@@ -166,7 +162,7 @@ export const generateApiKey = async (req, res) => {
   return res.status(201).send({ apikey });
 };
 
-export const resetPasswordRequest = async (req, res) => {
+export const resetPasswordRequest: Handler = async (req, res) => {
   const [user] = await query.user.update(
     { email: req.body.email },
     {
@@ -179,12 +175,12 @@ export const resetPasswordRequest = async (req, res) => {
     await mail.resetPasswordToken(user);
   }
 
-  return res.status(200).json({
-    error: "If email address exists, a reset password email has been sent."
+  return res.status(200).send({
+    message: "If email address exists, a reset password email has been sent."
   });
 };
 
-export const resetPassword = async (req, res, next) => {
+export const resetPassword: Handler = async (req, res, next) => {
   const { resetPasswordToken } = req.params;
 
   if (resetPasswordToken) {
@@ -195,6 +191,81 @@ export const resetPassword = async (req, res, next) => {
       },
       { reset_password_expires: null, reset_password_token: null }
     );
+
+    if (user) {
+      const token = utils.signToken(user as UserJoined);
+      req.token = token;
+    }
+  }
+  return next();
+};
+
+export const signupAccess: Handler = (req, res, next) => {
+  if (!env.DISALLOW_REGISTRATION) return next();
+  return res.status(403).send({ message: "Registration is not allowed." });
+};
+
+export const changeEmailRequest: Handler = async (req, res) => {
+  const { email, password } = req.body;
+
+  const isMatch = await bcrypt.compare(password, req.user.password);
+
+  if (!isMatch) {
+    throw new CustomError("Password is wrong.", 400);
+  }
+
+  const currentUser = await query.user.find({ email });
+
+  if (currentUser) {
+    throw new CustomError("Can't use this email address.", 400);
+  }
+
+  const [updatedUser] = await query.user.update(
+    { id: req.user.id },
+    {
+      change_email_address: email,
+      change_email_token: uuid(),
+      change_email_expires: addMinutes(new Date(), 30).toISOString()
+    }
+  );
+
+  redis.remove.user(updatedUser);
+
+  if (updatedUser) {
+    await mail.changeEmail({ ...updatedUser, email });
+  }
+
+  return res.status(200).send({
+    message:
+      "If email address exists, an email " +
+      "with a verification link has been sent."
+  });
+};
+
+export const changeEmail: Handler = async (req, res, next) => {
+  const { changeEmailToken } = req.params;
+
+  if (changeEmailToken) {
+    const foundUser = await query.user.find({
+      change_email_token: changeEmailToken
+    });
+
+    if (!foundUser) return next();
+
+    const [user] = await query.user.update(
+      {
+        change_email_token: changeEmailToken,
+        change_email_expires: [">", new Date().toISOString()]
+      },
+      {
+        change_email_token: null,
+        change_email_expires: null,
+        change_email_address: null,
+        email: foundUser.change_email_address
+      }
+    );
+
+    redis.remove.user(foundUser);
 
     if (user) {
       const token = utils.signToken(user as UserJoined);

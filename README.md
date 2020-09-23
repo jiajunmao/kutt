@@ -27,6 +27,7 @@
 - [API](#api)
 - [Integrations](#integrations)
 - [3rd Party Packages](#3rd-party-packages)
+- [Donate](#donate)
 - [Contributing](#contributing)
 
 ## Key Features
@@ -34,9 +35,13 @@
 - Free and open source.
 - Custom domain support.
 - Custom URLs for shortened links
-- Setting password for links.
+- Set password for links.
+- Set description for links.
+- Expiration time for links.
 - Private statistics for shortened URLs.
-- View and manage your links.
+- View, edit, delete and manage your links.
+- Admin account to view, delete and ban links.
+- Ability to disable registration and anonymous link creation for private use.
 - RESTful API.
 
 ## Stack
@@ -54,17 +59,33 @@
 
 ## Setup
 
+### Manual
+
 You need to have [Node.js](https://nodejs.org/), [PostgreSQL](https://www.postgresql.org/) and [Redis](https://redis.io/) installed.
 
-1. Clone this repository or [download zip](https://github.com/thedevs-network/kutt/archive/v2-beta.zip).
-2. Copy `.example.env` to `.env` and fill it properly.
+1. Clone this repository or [download the latest zip](https://github.com/thedevs-network/kutt/releases).
+2. Copy `.example.env` to `.env` and fill it properly ([see below](#configuration)).
 3. Install dependencies: `npm install`.
 4. Run for development: `npm run dev`.
 5. Run for production: `npm run build` then `npm start`.
 
 ### Docker
 
-You can use Docker to start the app. The simplest way is to just run `docker-compose up` command and then the app should be ready on port "3000".
+Download the `docker-compose.yml` and the `.docker.env`-file from the repository and configure the `.docker.env` ([see below](#configuration)). 
+To execute Kutt you simply have to run `docker-compose up -d` command and then the app should be ready on port "3000".
+
+The `docker-compose.yml` uses the official kutt docker image available on [Docker Hub](https://hub.docker.com/r/kutt/kutt).
+
+### Configuration
+
+For the minimal configuration the following settings have to be changed in the `.env`-file:
+
+- **DEFAULT_DOMAIN**: The domain of your kutt instance
+- **DB_**: The DB credentials (when you use docker-compose you can skip these)
+- **ADMIN_EMAILS**: A comma-separated list of the administrator-accounts
+- **RECAPTCHA_**: Enter your credentials to use reCaptchas or delete this setting if you don't want to use it
+- **MAIL_**: Enter the SMTP-server's credentials (The experience shows SSL works better than STARTTLS; The mail config is required to easily create accounts, see [this comment](https://github.com/thedevs-network/kutt/issues/269#issuecomment-628604256) how it can be done manually)
+- **REPORT_EMAIL**: Kutt offers a form to report malicious links which are sent to this mail-address
 
 ## Browser Extensions
 
@@ -100,6 +121,16 @@ Download Kutt's official workflow for [Alfred](https://www.alfredapp.com/) app f
 | Java       | [kutt-desktop](https://github.com/cipher812/kutt-desktop)  | A Cross platform Java desktop application for Kutt |
 | Go         | [kutt-go](https://github.com/raahii/kutt-go)               | Go client for Kutt.it url shortener                |
 
+## Donate
+
+<img src="./btc.png" alt="Kutt.it" width="32px" height="32px">
+
+Kutt is free of charge and free of ads. Help us keep our servers running and motivate us to work on this project by donating to our Bitcoin wallet:
+
+```
+1P89WxNTinKxxDQ4FmC4jis3KUdfA9fLJB
+```
+
 ## Contributing
 
 Pull requests are welcome. You'll probably find lots of improvements to be made.
@@ -107,3 +138,4 @@ Pull requests are welcome. You'll probably find lots of improvements to be made.
 Open issues for feedback, requesting features, reporting bugs or discussing ideas.
 
 Special thanks to [Thomas](https://github.com/trgwii) and [Muthu](https://github.com/MKRhere). Logo design by [Muthu](https://github.com/MKRhere).
+

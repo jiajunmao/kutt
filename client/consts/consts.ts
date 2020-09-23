@@ -1,3 +1,13 @@
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
+
+export const DISALLOW_ANONYMOUS_LINKS =
+  publicRuntimeConfig.DISALLOW_ANONYMOUS_LINKS === "true";
+
+export const DISALLOW_REGISTRATION =
+  publicRuntimeConfig.DISALLOW_REGISTRATION === "true";
+
 export enum API {
   BAN_LINK = "/api/url/admin/ban",
   STATS = "/api/url/stats"
@@ -9,6 +19,7 @@ export enum APIv2 {
   AuthRenew = "/api/v2/auth/renew",
   AuthResetPassword = "/api/v2/auth/reset-password",
   AuthChangePassword = "/api/v2/auth/change-password",
+  AuthChangeEmail = "/api/v2/auth/change-email",
   AuthGenerateApikey = "/api/v2/auth/apikey",
   Users = "/api/v2/users",
   Domains = "/api/v2/domains",
@@ -47,6 +58,8 @@ export enum Colors {
   TableHeadBg = "hsl(200, 12%, 95%)",
   TableHeadBorder = "hsl(200, 14%, 94%)",
   TableRowHover = "hsl(200, 14%, 98%)",
+  TableRowBanned = "hsl(0, 100%, 98%)",
+  TableRowBannedHower = "hsl(0, 100%, 96%)",
   TableShadow = "hsla(200, 20%, 70%, 0.3)",
   Text = "hsl(200, 35%, 25%)",
   TrashIcon = "hsl(0, 100%, 69%)",

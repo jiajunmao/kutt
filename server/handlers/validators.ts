@@ -1,11 +1,12 @@
 import { body, param } from "express-validator";
-import { isAfter, subDays, subHours } from "date-fns";
+import { isAfter, subDays, subHours, addMilliseconds } from "date-fns";
 import urlRegex from "url-regex";
 import { promisify } from "util";
 import bcrypt from "bcryptjs";
 import axios from "axios";
 import dns from "dns";
 import URL from "url";
+import ms from "ms";
 
 import { CustomError, addProtocol } from "../utils";
 import query from "../queries";
@@ -57,14 +58,14 @@ export const createLink = [
     .custom(value => URL.parse(value).host !== env.DEFAULT_DOMAIN)
     .withMessage(`${env.DEFAULT_DOMAIN} URLs are not allowed.`),
   body("password")
-    .optional()
+    .optional({ nullable: true, checkFalsy: true })
     .custom(checkUser)
     .withMessage("Only users can use this field.")
     .isString()
     .isLength({ min: 3, max: 64 })
     .withMessage("Password length must be between 3 and 64."),
   body("customurl")
-    .optional()
+    .optional({ nullable: true, checkFalsy: true })
     .custom(checkUser)
     .withMessage("Only users can use this field.")
     .isString()
@@ -76,19 +77,47 @@ export const createLink = [
     .custom(value => !preservedUrls.some(url => url.toLowerCase() === value))
     .withMessage("You can't use this custom URL."),
   body("reuse")
-    .optional()
+    .optional({ nullable: true })
     .custom(checkUser)
     .withMessage("Only users can use this field.")
     .isBoolean()
     .withMessage("Reuse must be boolean."),
+  body("description")
+    .optional({ nullable: true, checkFalsy: true })
+    .isString()
+    .trim()
+    .isLength({ min: 0, max: 2040 })
+    .withMessage("Description length must be between 0 and 2040."),
+  body("expire_in")
+    .optional({ nullable: true, checkFalsy: true })
+    .isString()
+    .trim()
+    .custom(value => {
+      try {
+        return !!ms(value);
+      } catch {
+        return false;
+      }
+    })
+    .withMessage("Expire format is invalid. Valid examples: 1m, 8h, 42 days.")
+    .customSanitizer(ms)
+    .custom(value => value >= ms("1m"))
+    .withMessage("Minimum expire time should be '1 minute'.")
+    .customSanitizer(value => addMilliseconds(new Date(), value).toISOString()),
   body("domain")
-    .optional()
+    .optional({ nullable: true, checkFalsy: true })
     .custom(checkUser)
     .withMessage("Only users can use this field.")
     .isString()
     .withMessage("Domain should be string.")
     .customSanitizer(value => value.toLowerCase())
+    .customSanitizer(value => URL.parse(value).hostname || value)
     .custom(async (address, { req }) => {
+      if (address === env.DEFAULT_DOMAIN) {
+        req.body.domain = null;
+        return;
+      }
+
       const domain = await query.domain.find({
         address,
         user_id: req.user.id
@@ -126,6 +155,28 @@ export const editLink = [
     .withMessage("Custom URL is not valid")
     .custom(value => !preservedUrls.some(url => url.toLowerCase() === value))
     .withMessage("You can't use this custom URL."),
+  body("expire_in")
+    .optional({ nullable: true, checkFalsy: true })
+    .isString()
+    .trim()
+    .custom(value => {
+      try {
+        return !!ms(value);
+      } catch {
+        return false;
+      }
+    })
+    .withMessage("Expire format is invalid. Valid examples: 1m, 8h, 42 days.")
+    .customSanitizer(ms)
+    .custom(value => value >= ms("1m"))
+    .withMessage("Minimum expire time should be '1 minute'.")
+    .customSanitizer(value => addMilliseconds(new Date(), value).toISOString()),
+  body("description")
+    .optional({ nullable: true, checkFalsy: true })
+    .isString()
+    .trim()
+    .isLength({ min: 0, max: 2040 })
+    .withMessage("Description length must be between 0 and 2040."),
   param("id", "ID is invalid.")
     .exists({ checkFalsy: true, checkNull: true })
     .isLength({ min: 36, max: 36 })
@@ -155,11 +206,6 @@ export const addDomain = [
     .custom(value => urlRegex({ exact: true, strict: false }).test(value))
     .custom(value => value !== env.DEFAULT_DOMAIN)
     .withMessage("You can't use the default domain.")
-    .custom(async (value, { req }) => {
-      const domains = await query.domain.get({ user_id: req.user.id });
-      if (domains.length !== 0) return Promise.reject();
-    })
-    .withMessage("You already own a domain. Contact support if you need more.")
     .custom(async value => {
       const domain = await query.domain.find({ address: value });
       if (domain?.user_id || domain?.banned) return Promise.reject();
@@ -283,6 +329,19 @@ export const changePassword = [
 ];
 
 export const resetPasswordRequest = [
+  body("email", "Email is not valid.")
+    .exists({ checkFalsy: true, checkNull: true })
+    .trim()
+    .isEmail()
+    .isLength({ min: 0, max: 255 })
+    .withMessage("Email length must be max 255."),
+  body("password", "Password is not valid.")
+    .exists({ checkFalsy: true, checkNull: true })
+    .isLength({ min: 8, max: 64 })
+    .withMessage("Password length must be between 8 and 64.")
+];
+
+export const resetEmailRequest = [
   body("email", "Email is not valid.")
     .exists({ checkFalsy: true, checkNull: true })
     .trim()

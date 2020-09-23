@@ -8,6 +8,7 @@ import Link from "next/link";
 import axios from "axios";
 
 import { useStoreState, useStoreActions } from "../store";
+import { APIv2, DISALLOW_REGISTRATION } from "../consts";
 import { ColCenterV } from "../components/Layout";
 import AppWrapper from "../components/AppWrapper";
 import { TextInput } from "../components/Input";
@@ -16,7 +17,6 @@ import { Button } from "../components/Button";
 import Text, { H2 } from "../components/Text";
 import ALink from "../components/ALink";
 import Icon from "../components/Icon";
-import { APIv2 } from "../consts";
 
 const LoginForm = styled(Flex).attrs({
   as: "form",
@@ -77,7 +77,7 @@ const LoginPage = () => {
         }
       }
 
-      if (type === "signup") {
+      if (type === "signup" && !DISALLOW_REGISTRATION) {
         setLoading(s => ({ ...s, signup: true }));
         try {
           await axios.post(APIv2.AuthSignup, { email, password });
@@ -135,7 +135,7 @@ const LoginPage = () => {
             <Flex justifyContent="center">
               <Button
                 flex="1 1 auto"
-                mr={["8px", 16]}
+                mr={!DISALLOW_REGISTRATION ? ["8px", 16] : 0}
                 height={[44, 56]}
                 onClick={onSubmit("login")}
               >

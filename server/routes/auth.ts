@@ -17,6 +17,7 @@ router.post(
 
 router.post(
   "/signup",
+  auth.signupAccess,
   validators.signup,
   asyncHandler(helpers.verify),
   asyncHandler(auth.signup)
@@ -30,6 +31,14 @@ router.post(
   validators.changePassword,
   asyncHandler(helpers.verify),
   asyncHandler(auth.changePassword)
+);
+
+router.post(
+  "/change-email",
+  asyncHandler(auth.jwt),
+  validators.changePassword,
+  asyncHandler(helpers.verify),
+  asyncHandler(auth.changeEmailRequest)
 );
 
 router.post(
